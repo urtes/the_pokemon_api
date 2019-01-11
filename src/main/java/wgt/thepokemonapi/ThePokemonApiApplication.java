@@ -7,7 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ThePokemonApiApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(ThePokemonApiApplication.class, args);
+
+        CsvReader cvsReader = new CsvReader();
+        cvsReader.readFromCvs();
     }
 
 }
