@@ -1,4 +1,4 @@
-package wgt.thepokemonapi;
+package wgt.pokemonapi;
 
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -16,11 +16,11 @@ import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication
-public class ThePokemonApiApplication {
+public class PokemonApplication {
 
     public static void main(String[] args) {
 
-        SpringApplication.run(ThePokemonApiApplication.class, args);
+        SpringApplication.run(PokemonApplication.class, args);
     }
 
     @Bean
