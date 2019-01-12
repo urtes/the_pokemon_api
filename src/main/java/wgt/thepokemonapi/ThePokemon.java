@@ -2,8 +2,6 @@ package wgt.thepokemonapi;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-
 @Data
 public class ThePokemon {
     private Integer id;

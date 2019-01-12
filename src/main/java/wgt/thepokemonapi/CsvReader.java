@@ -11,7 +11,7 @@ public class CsvReader {
 
     public Map<String, ThePokemon> readFromCvs() {
         Map<String, ThePokemon> pokemonMap = new HashMap<>();
-        String csvFile = "pokemons.csv";
+        String csvFile = "src/main/resources/static/pokemons.csv";
         BufferedReader br = null;
         String line = "";
         String csvSplitBy = ",";
