@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 
 public class FilterBySpecificType implements PokemonFilter {
 
-    String specificType;
-    Map<String, Pokemon> pokemonsToFilter;
-    Map<String, Pokemon> filteredPokemons = new HashMap<>();
+    private String specificType;
+    private Map<String, Pokemon> pokemonsToFilter;
+    private Map<String, Pokemon> filteredPokemons = new HashMap<>();
 
     public FilterBySpecificType(Map<String, Pokemon> pokemonMap, String specificType) {
         this.specificType = specificType;

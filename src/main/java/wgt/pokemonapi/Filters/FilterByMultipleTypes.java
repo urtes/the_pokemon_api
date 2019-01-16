@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 public class FilterByMultipleTypes implements PokemonFilter {
 
-    Map<String, Pokemon> pokemonsToFilter;
-    Map<String, Pokemon> filteredPokemons = new HashMap<>();
+    private Map<String, Pokemon> pokemonsToFilter;
+    private Map<String, Pokemon> filteredPokemons = new HashMap<>();
 
     public FilterByMultipleTypes(Map<String, Pokemon> pokemonMap) {
         this.pokemonsToFilter = pokemonMap;
