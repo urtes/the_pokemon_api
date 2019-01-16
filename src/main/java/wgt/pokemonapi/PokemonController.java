@@ -48,4 +48,32 @@ public class PokemonController {
         return filteredPokemons;
 
     }
+
+    @GetMapping("/pokemons-battle")
+    private Pokemon comparePokemons(@RequestParam(value = "pokemonA", defaultValue = "") String nameOfPokemonA,
+                                    @RequestParam(value = "pokemonB", defaultValue = "") String nameOfPokemonB) {
+
+        Pokemon winner = new Pokemon();
+        Pokemon firstToAttack;
+        Pokemon secondToAttack;
+
+        Pokemon pokemonA = pokemonMap.get(nameOfPokemonA);
+        Pokemon pokemonB = pokemonMap.get(nameOfPokemonB);
+
+        if (pokemonA != null && pokemonB != null) {
+            if (pokemonA.getAttackSpeed() >= pokemonB.getAttackSpeed()) {
+                firstToAttack = pokemonA;
+                secondToAttack = pokemonB;
+            } else {
+                firstToAttack = pokemonB;
+                secondToAttack = pokemonA;
+            }
+
+            BattleSystem battleSystem = new BattleSystem();
+            winner = battleSystem.fight(firstToAttack, secondToAttack);
+        }
+
+        return winner;
+    }
+
 }
