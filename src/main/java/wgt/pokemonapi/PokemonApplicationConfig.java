@@ -3,6 +3,7 @@ package wgt.pokemonapi;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,10 +18,13 @@ import java.util.Map;
 @Configuration
 public class PokemonApplicationConfig {
 
+    @Value("${csv.path}")
+    String csvPath;
+
     @Bean
     public InputStream pokemonStream() throws IOException {
 
-        File initialFile = new File("src/main/resources/static/pokemons.csv");
+        File initialFile = new File(csvPath);
         InputStream stream = new FileInputStream(initialFile);
 
         return stream;
