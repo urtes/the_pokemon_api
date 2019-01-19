@@ -1,20 +1,17 @@
-package wgt.pokemonapi.Filters;
+package wgt.pokemonapi.filters;
 
-import wgt.pokemonapi.Filters.PokemonFilter;
 import wgt.pokemonapi.Pokemon;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class FilterByName implements PokemonFilter {
+public class FilterByMultipleTypes implements PokemonFilter {
 
-    private String name;
     private Map<String, Pokemon> pokemonsToFilter;
     private Map<String, Pokemon> filteredPokemons = new HashMap<>();
 
-    public FilterByName(Map<String, Pokemon> pokemonMap, String name) {
-        this.name = name;
+    public FilterByMultipleTypes(Map<String, Pokemon> pokemonMap) {
         this.pokemonsToFilter = pokemonMap;
     }
 
@@ -24,7 +21,8 @@ public class FilterByName implements PokemonFilter {
         filteredPokemons = pokemonsToFilter
                 .entrySet()
                 .stream()
-                .filter(e -> e.getValue().getName().toLowerCase().contains(name.toLowerCase()))
+                .filter(e -> (e.getValue().getType1().length() != 0)
+                && (e.getValue().getType2().length() != 0))
                 .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
 
         return filteredPokemons;

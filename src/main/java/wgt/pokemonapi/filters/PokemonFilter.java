@@ -1,4 +1,4 @@
-package wgt.pokemonapi.Filters;
+package wgt.pokemonapi.filters;
 
 import wgt.pokemonapi.Pokemon;
 
