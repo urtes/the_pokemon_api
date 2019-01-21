@@ -1,26 +1,22 @@
 package wgt.pokemonapi.filters;
 
+import lombok.AllArgsConstructor;
 import wgt.pokemonapi.Pokemon;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class FilterBySpecificType implements PokemonFilter {
+@AllArgsConstructor
+public class FilterBySpecificType extends PokemonFilter {
 
-    private String specificType;
     private Map<String, Pokemon> pokemonsToFilter;
-    private Map<String, Pokemon> filteredPokemons = new HashMap<>();
+    private String specificType;
 
-    public FilterBySpecificType(Map<String, Pokemon> pokemonMap, String specificType) {
-        this.specificType = specificType;
-        this.pokemonsToFilter = pokemonMap;
-    }
 
     @Override
-    public Map<String, Pokemon> filterPokemons() {
+    public Map<String, Pokemon> apply() {
 
-        filteredPokemons = pokemonsToFilter
+        Map<String, Pokemon> filteredPokemons = pokemonsToFilter
                 .entrySet()
                 .stream()
                 .filter(e -> (specificType.toLowerCase().equals(e.getValue().getType1().toLowerCase()))

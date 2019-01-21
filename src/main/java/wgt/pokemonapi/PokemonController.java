@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import wgt.pokemonapi.filters.*;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 @RestController
 public class PokemonController {
@@ -19,32 +18,40 @@ public class PokemonController {
     BattleSystem battleSystem;
 
     @GetMapping("/pokemons")
-    private Map<String, Pokemon> filterPokemons(@RequestParam(value = "specificType", defaultValue = "") String specificType,
+    private Map<String, Pokemon> filterPokemons(@RequestParam(value = "specificType", defaultValue = "")String specificType,
                                                 @RequestParam(value = "multipleTypes", defaultValue = "false") boolean multipleTypes,
                                                 @RequestParam(value = "legendary", defaultValue = "false") boolean legendary,
                                                 @RequestParam(value = "name", defaultValue = "") String name) {
 
         Map<String, Pokemon> filteredPokemons = pokemonMap;
-        List<Predicate<Map.Entry<String, Pokemon>>> filters;
+        List<PokemonFilter> filters = new ArrayList<>();
 
         if (specificType != null && specificType.length() != 0) {
-            PokemonFilter filter = new FilterBySpecificType(filteredPokemons, specificType);
-            filteredPokemons = filter.filterPokemons();
+            PokemonFilter filterBySpecificType = new FilterBySpecificType(filteredPokemons, specificType);
+            filters.add(filterBySpecificType);
         }
 
         if (multipleTypes) {
-            PokemonFilter filter = new FilterByMultipleTypes(filteredPokemons);
-            filteredPokemons = filter.filterPokemons();
+            PokemonFilter filterByMultipleTypes = new FilterByMultipleTypes(filteredPokemons);
+            filters.add(filterByMultipleTypes);
         }
 
         if (legendary) {
-            PokemonFilter filter = new FilterLegendary(filteredPokemons);
-            filteredPokemons = filter.filterPokemons();
+            PokemonFilter filterLegendary = new FilterLegendary(filteredPokemons);
+            filters.add(filterLegendary);
         }
 
         if (name != null && name.length() != 0) {
-            PokemonFilter filter = new FilterByName(filteredPokemons, name);
-            filteredPokemons = filter.filterPokemons();
+            PokemonFilter filterByName = new FilterByName(filteredPokemons, name);
+            filters.add(filterByName);
+        }
+
+        if (filters.isEmpty()) {
+            return filteredPokemons;
+        }
+
+        for (PokemonFilter filter : filters) {
+            filteredPokemons = filter.apply();
         }
 
         return filteredPokemons;

@@ -1,24 +1,20 @@
 package wgt.pokemonapi.filters;
 
+import lombok.AllArgsConstructor;
 import wgt.pokemonapi.Pokemon;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class FilterLegendary implements PokemonFilter {
+@AllArgsConstructor
+public class FilterLegendary extends PokemonFilter {
 
     private Map<String, Pokemon> pokemonsToFilter;
-    private Map<String, Pokemon> filteredPokemons = new HashMap<>();
-
-    public FilterLegendary(Map<String, Pokemon> pokemonMap) {
-        this.pokemonsToFilter = pokemonMap;
-    }
 
     @Override
-    public Map<String, Pokemon> filterPokemons() {
+    public Map<String, Pokemon> apply() {
 
-        filteredPokemons = pokemonsToFilter
+        Map<String, Pokemon> filteredPokemons = pokemonsToFilter
                 .entrySet()
                 .stream()
                 .filter(e -> (e.getValue().getLegendary()))

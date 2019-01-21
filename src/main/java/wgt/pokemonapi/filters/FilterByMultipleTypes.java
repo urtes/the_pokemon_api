@@ -1,28 +1,24 @@
 package wgt.pokemonapi.filters;
 
+import lombok.AllArgsConstructor;
 import wgt.pokemonapi.Pokemon;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class FilterByMultipleTypes implements PokemonFilter {
+@AllArgsConstructor
+public class FilterByMultipleTypes extends PokemonFilter {
 
     private Map<String, Pokemon> pokemonsToFilter;
-    private Map<String, Pokemon> filteredPokemons = new HashMap<>();
-
-    public FilterByMultipleTypes(Map<String, Pokemon> pokemonMap) {
-        this.pokemonsToFilter = pokemonMap;
-    }
 
     @Override
-    public Map<String, Pokemon> filterPokemons() {
+    public Map<String, Pokemon> apply() {
 
-        filteredPokemons = pokemonsToFilter
+        Map<String, Pokemon> filteredPokemons = pokemonsToFilter
                 .entrySet()
                 .stream()
                 .filter(e -> (e.getValue().getType1().length() != 0)
-                && (e.getValue().getType2().length() != 0))
+                        && (e.getValue().getType2().length() != 0))
                 .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
 
         return filteredPokemons;

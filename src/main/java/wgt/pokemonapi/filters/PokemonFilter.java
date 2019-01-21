@@ -4,7 +4,7 @@ import wgt.pokemonapi.Pokemon;
 
 import java.util.Map;
 
-public interface PokemonFilter {
+public abstract class PokemonFilter {
 
-    Map<String, Pokemon> filterPokemons();
+    public abstract Map<String, Pokemon> apply();
 }
