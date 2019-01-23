@@ -2,21 +2,37 @@ package wgt.pokemonapi.filters;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.MockitoJUnitRunner;
+import wgt.pokemonapi.Pokemon;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 public class FilterByNameTests {
 
-//    Map pokemonMap = new HashMap<String, Pokemon>();
-//    Pokemon pokemon1 = new Pokemon() {}
-//    PokemonFilter filter = new FilterByName();
+    Map<String, Pokemon> testPokemonsToFilter = new HashMap<>();
+    FilterByName filterByName = new FilterByName(testPokemonsToFilter, "Bulbasaur");
 
     @Test
-    public void filterPokemonsTest() {
-        assertEquals(1, 1);
+    public void applyTestwithTwoValues() {
+
+        Pokemon pokemon1 = new Pokemon();
+        Pokemon pokemon2 = new Pokemon();
+        pokemon1.setName("Bulbasaur");
+        pokemon2.setName("Ivysaur");
+        testPokemonsToFilter.put(pokemon1.getName(), pokemon1);
+        testPokemonsToFilter.put(pokemon2.getName(), pokemon2);
+
+        assertEquals(1, filterByName.apply().size());
+        assertTrue("Bulbasaur".equals(filterByName.apply().get("Bulbasaur").getName()));
+    }
+
+    @Test
+    public void applyTestWithNoValues() {
+        assertEquals(0, filterByName.apply().size());
     }
 }
