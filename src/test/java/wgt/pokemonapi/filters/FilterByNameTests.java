@@ -18,7 +18,7 @@ public class FilterByNameTests {
     FilterByName filterByName = new FilterByName(testPokemonsToFilter, "Bulbasaur");
 
     @Test
-    public void applyTestwithTwoValues() {
+    public void applyTestWithTwoValues() {
 
         Pokemon pokemon1 = new Pokemon();
         Pokemon pokemon2 = new Pokemon();
