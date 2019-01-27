@@ -18,7 +18,7 @@ public class PokemonController {
     BattleSystem battleSystem;
 
     @GetMapping("/pokemons")
-    private Map<String, Pokemon> filterPokemons(@RequestParam(value = "specificType", defaultValue = "")String specificType,
+    public Map<String, Pokemon> filterPokemons(@RequestParam(value = "specificType", defaultValue = "")String specificType,
                                                 @RequestParam(value = "multipleTypes", defaultValue = "false") boolean multipleTypes,
                                                 @RequestParam(value = "legendary", defaultValue = "false") boolean legendary,
                                                 @RequestParam(value = "name", defaultValue = "") String name) {
@@ -59,7 +59,7 @@ public class PokemonController {
     }
 
     @GetMapping("/pokemons-battle")
-    private Pokemon comparePokemons(@RequestParam(value = "pokemonA", defaultValue = "") String nameOfPokemonA,
+    public Pokemon comparePokemons(@RequestParam(value = "pokemonA", defaultValue = "") String nameOfPokemonA,
                                     @RequestParam(value = "pokemonB", defaultValue = "") String nameOfPokemonB) {
 
         Pokemon winner = new Pokemon();
