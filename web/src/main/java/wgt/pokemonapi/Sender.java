@@ -15,9 +15,9 @@ public class Sender {
     private QueueFromWeb queueFromWeb;
 
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
-    public void send() {
-        String message = "Hello World, from web!";
-        this.template.convertAndSend(queueFromWeb.getName(), message);
-        System.out.println(" [x] Sent '" + message + "'");
+    public void send(Request request) {
+//        String message = "Hello World, from web!";
+        this.template.convertAndSend(queueFromWeb.getName(), request);
+        System.out.println(" [x] Sent '" + request.toString() + "'");
     }
 }

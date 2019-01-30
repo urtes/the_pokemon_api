@@ -89,6 +89,7 @@ public class PokemonController {
 
     @GetMapping("/message")
     public void sendMessage() {
+
         sender.send();
     }
 }

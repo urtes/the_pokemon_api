@@ -89,7 +89,12 @@ public class PokemonController {
     }
 
     @GetMapping("/message")
-    public void sendMessage() {
-        sender.send();
+    public void sendMessage(@RequestParam(value = "legendary", defaultValue = "false") boolean legendary,
+                            @RequestParam(value = "name", defaultValue = "") String name) {
+
+        Request request = new Request();
+        request.setLegendary(legendary);
+        request.setName(name);
+        sender.send(request);
     }
 }
