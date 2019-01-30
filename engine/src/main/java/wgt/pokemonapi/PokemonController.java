@@ -17,6 +17,9 @@ public class PokemonController {
     @Autowired
     BattleSystem battleSystem;
 
+    @Autowired
+    Sender sender;
+
     @GetMapping("/pokemons")
     public Map<String, Pokemon> filterPokemons(@RequestParam(value = "specificType", defaultValue = "")String specificType,
                                                 @RequestParam(value = "multipleTypes", defaultValue = "false") boolean multipleTypes,
@@ -84,4 +87,8 @@ public class PokemonController {
         return winner;
     }
 
+    @GetMapping("/message")
+    public void sendMessage() {
+        sender.send();
+    }
 }

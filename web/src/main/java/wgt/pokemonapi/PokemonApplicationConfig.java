@@ -3,9 +3,12 @@ package wgt.pokemonapi;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import wgt.pokemonapi.queues.QueueFromEngine;
+import wgt.pokemonapi.queues.QueueFromWeb;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,5 +47,25 @@ public class PokemonApplicationConfig {
         }
 
         return pokemonMap;
+    }
+
+    @Bean
+    public QueueFromEngine helloFromEngine() {
+        return new QueueFromEngine("from engine");
+    }
+
+    @Bean
+    public QueueFromWeb helloFromWeb() {
+        return new QueueFromWeb("from web");
+    }
+
+    @Bean
+    public Receiver receiver() {
+        return new Receiver();
+    }
+
+    @Bean
+    public Sender sender() {
+        return new Sender();
     }
 }

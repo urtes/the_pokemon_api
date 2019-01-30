@@ -1,5 +1,6 @@
 package wgt.pokemonapi;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,8 +18,11 @@ public class PokemonController {
     @Autowired
     BattleSystem battleSystem;
 
+    @Autowired
+    Sender sender;
+
     @GetMapping("/pokemons")
-    public Map<String, Pokemon> filterPokemons(@RequestParam(value = "specificType", defaultValue = "")String specificType,
+    public Map<String, Pokemon> filterPokemons (@RequestParam(value = "specificType", defaultValue = "")String specificType,
                                                 @RequestParam(value = "multipleTypes", defaultValue = "false") boolean multipleTypes,
                                                 @RequestParam(value = "legendary", defaultValue = "false") boolean legendary,
                                                 @RequestParam(value = "name", defaultValue = "") String name) {
@@ -84,4 +88,8 @@ public class PokemonController {
         return winner;
     }
 
+    @GetMapping("/message")
+    public void sendMessage() {
+        sender.send();
+    }
 }
