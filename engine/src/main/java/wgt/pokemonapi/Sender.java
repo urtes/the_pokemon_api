@@ -16,8 +16,11 @@ public class Sender {
 
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
     public void send() {
-        String message = "Hello World, from engine!";
-        this.template.convertAndSend(queueFromEngine.getName(), message);
-        System.out.println(" [x] Sent '" + message + "'");
+//        String message = "Hello World, from engine!";
+        Pokemon pokemon = new Pokemon();
+        pokemon.setName("Bulbasaur");
+        pokemon.setHealth(100);
+        this.template.convertAndSend(queueFromEngine.getName(), pokemon);
+        System.out.println(" [x] Sent '" + pokemon + "'");
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 public class Receiver {
 
     @RabbitHandler
-    public void receive(String in) {
-        System.out.println(" [x] Received '" + in + "'");
+    public void receive(Pokemon pokemon) {
+        System.out.println(" [x] Received '" + pokemon.toString() + "'");
     }
 }

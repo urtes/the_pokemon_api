@@ -87,9 +87,9 @@ public class PokemonController {
         return winner;
     }
 
-    @GetMapping("/message")
-    public void sendMessage() {
-
-        sender.send();
-    }
+//    @GetMapping("/message")
+//    public void sendMessage() {
+//
+//        sender.send();
+//    }
 }
