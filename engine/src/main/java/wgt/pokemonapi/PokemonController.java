@@ -16,9 +16,9 @@ public class PokemonController {
 
     @Autowired
     BattleSystem battleSystem;
-
-    @Autowired
-    Sender sender;
+//
+//    @Autowired
+//    Sender sender;
 
     @GetMapping("/pokemons")
     public Map<String, Pokemon> filterPokemons(@RequestParam(value = "specificType", defaultValue = "")String specificType,

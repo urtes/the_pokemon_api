@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.var;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -58,14 +55,14 @@ public class PokemonApplicationConfig {
         return pokemonMap;
     }
 
-    @Bean
-    public QueueFromEngine helloFromEngine() {
-        return new QueueFromEngine("from engine");
-    }
+//    @Bean
+//    public QueueFromEngine helloFromEngine() {
+//        return new QueueFromEngine("from engine");
+//    }
 
     @Bean
     public QueueFromWeb helloFromWeb() {
-        return new QueueFromWeb("from web");
+        return new QueueFromWeb("test.web&engine.from-web");
     }
 
     @Bean
@@ -73,10 +70,10 @@ public class PokemonApplicationConfig {
         return new Receiver();
     }
 
-    @Bean
-    public Sender sender() {
-        return new Sender();
-    }
+//    @Bean
+//    public Sender sender() {
+//        return new Sender();
+//    }
 
     @Bean
     public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
@@ -88,5 +85,18 @@ public class PokemonApplicationConfig {
     @Bean
     public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
         return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    public DirectExchange exchange() {
+        return new DirectExchange("test.web&engine");
+    }
+
+    @Bean
+    public Binding binding(DirectExchange exchange,
+                           QueueFromWeb queueFromWeb) {
+        return BindingBuilder.bind(queueFromWeb)
+                .to(exchange)
+                .with("web&engine");
     }
 }

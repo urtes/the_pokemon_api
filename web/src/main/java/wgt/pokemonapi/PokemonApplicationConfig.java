@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.var;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -53,20 +54,20 @@ public class PokemonApplicationConfig {
         return pokemonMap;
     }
 
-    @Bean
-    public QueueFromEngine helloFromEngine() {
-        return new QueueFromEngine("from engine");
-    }
+//    @Bean
+//    public QueueFromEngine helloFromEngine() {
+//        return new QueueFromEngine("from engine");
+//    }
 
-    @Bean
-    public QueueFromWeb helloFromWeb() {
-        return new QueueFromWeb("from web");
-    }
+//    @Bean
+//    public QueueFromWeb helloFromWeb() {
+//        return new QueueFromWeb("from web");
+//    }
 
-    @Bean
-    public Receiver receiver() {
-        return new Receiver();
-    }
+//    @Bean
+//    public Receiver receiver() {
+//        return new Receiver();
+//    }
 
     @Bean
     public Sender sender() {
@@ -83,5 +84,10 @@ public class PokemonApplicationConfig {
     @Bean
     public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
         return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    public DirectExchange exchange() {
+        return new DirectExchange("test.web&engine");
     }
 }
