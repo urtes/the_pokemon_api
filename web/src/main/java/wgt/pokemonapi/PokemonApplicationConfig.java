@@ -6,6 +6,7 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.var;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -86,8 +87,11 @@ public class PokemonApplicationConfig {
         return new Jackson2JsonMessageConverter();
     }
 
+//    @Bean
+//    public DirectExchange exchange() {
+//        return new DirectExchange("test.web&engine");
+//    }
+
     @Bean
-    public DirectExchange exchange() {
-        return new DirectExchange("test.web&engine");
-    }
+    public TopicExchange topic() { return new TopicExchange("test.web&engine"); }
 }

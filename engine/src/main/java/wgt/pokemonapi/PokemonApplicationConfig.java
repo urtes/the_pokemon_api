@@ -60,10 +60,10 @@ public class PokemonApplicationConfig {
 //        return new QueueFromEngine("from engine");
 //    }
 
-    @Bean
-    public QueueFromWeb helloFromWeb() {
-        return new QueueFromWeb("test.web&engine.from-web");
-    }
+//    @Bean
+//    public QueueFromWeb helloFromWeb() {
+//        return new QueueFromWeb("test.web&engine.from-web");
+//    }
 
     @Bean
     public Receiver receiver() {
@@ -87,16 +87,44 @@ public class PokemonApplicationConfig {
         return new Jackson2JsonMessageConverter();
     }
 
+//    @Bean
+//    public DirectExchange exchange() {
+//        return new DirectExchange("test.web&engine");
+//    }
+
     @Bean
-    public DirectExchange exchange() {
-        return new DirectExchange("test.web&engine");
+    public TopicExchange topic() { return new TopicExchange("test.web&engine"); }
+
+    @Bean
+    public Queue autoDeleteQueueSelection() {
+        return new AnonymousQueue();
     }
 
     @Bean
-    public Binding binding(DirectExchange exchange,
-                           QueueFromWeb queueFromWeb) {
-        return BindingBuilder.bind(queueFromWeb)
-                .to(exchange)
-                .with("web&engine");
+    public Queue autoDeleteQueueBattle() {
+        return new AnonymousQueue();
+    }
+
+
+//    @Bean
+//    public Binding binding(DirectExchange exchange,
+//                           QueueFromWeb queueFromWeb) {
+//        return BindingBuilder.bind(queueFromWeb)
+//                .to(exchange)
+//                .with("web&engine");
+//    }
+
+    @Bean
+    public Binding bindingSelection (TopicExchange topic, Queue autoDeleteQueueSelection) {
+        return BindingBuilder.bind(autoDeleteQueueSelection)
+                .to(topic)
+                .with("selection");
+    }
+
+    @Bean
+    public Binding bindingBattle (TopicExchange topic, Queue autoDeleteQueueBattle) {
+        return BindingBuilder.bind(autoDeleteQueueBattle)
+                .to(topic)
+                .with("battle");
     }
 }

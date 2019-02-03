@@ -88,13 +88,19 @@ public class PokemonController {
         return winner;
     }
 
-    @GetMapping("/message")
-    public void sendMessage(@RequestParam(value = "legendary", defaultValue = "false") boolean legendary,
-                            @RequestParam(value = "name", defaultValue = "") String name) {
+    @GetMapping("/selection")
+    public void sendSelectionMessage(@RequestParam(value = "select", defaultValue = "") String request) {
 
-        Request request = new Request();
-        request.setLegendary(legendary);
-        request.setName(name);
-        sender.send(request);
+        SelectionRequest selectionRequest = new SelectionRequest();
+        selectionRequest.setRequestSelection(request);
+        sender.sendSelectionRequest(selectionRequest);
+    }
+
+    @GetMapping("/battle")
+    public void sendBattleMessage(@RequestParam(value = "fight", defaultValue = "") String request) {
+
+        BattleRequest battleRequest = new BattleRequest();
+        battleRequest.setRequestBattle(request);
+        sender.sendBattleRequest(battleRequest);
     }
 }
