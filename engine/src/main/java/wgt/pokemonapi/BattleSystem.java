@@ -1,26 +1,48 @@
 package wgt.pokemonapi;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import wgt.pokemonapi.requests.BattleRequest;
 
-@Component
+import java.util.Map;
+
 public class BattleSystem {
 
-    public Pokemon fight(Pokemon firstToAttack, Pokemon secondToAttack) {
+    @Autowired
+    private Map<String, Pokemon> pokemonMap;
 
-        Integer healthOfFirstToAttack = firstToAttack.getHealth();
-        Integer healthOfSecondToAttack = secondToAttack.getHealth();
-        final int rounds = 8;
+    public Pokemon fight(BattleRequest battleRequest) {
 
-        for (int i = 0; i < rounds; i++) {
+        Pokemon firstToAttack;
+        Pokemon secondToAttack;
 
-            healthOfSecondToAttack -= (firstToAttack.getAttack() - secondToAttack.getDefense());
-            healthOfFirstToAttack -= (secondToAttack.getAttack() - firstToAttack.getDefense());
+        Pokemon pokemonA = pokemonMap.get(battleRequest.getNameOfPokemonA());
+        Pokemon pokemonB = pokemonMap.get(battleRequest.getNameOfPokemonB());
 
-            if (healthOfFirstToAttack <= 0 || healthOfSecondToAttack <= 0) {
-                break;
+        if (pokemonA != null && pokemonB != null) {
+            if (pokemonA.getAttackSpeed() >= pokemonB.getAttackSpeed()) {
+                firstToAttack = pokemonA;
+                secondToAttack = pokemonB;
+            } else {
+                firstToAttack = pokemonB;
+                secondToAttack = pokemonA;
             }
-        }
 
-        return (healthOfFirstToAttack >= healthOfSecondToAttack) ? firstToAttack : secondToAttack;
+            Integer healthOfFirstToAttack = firstToAttack.getHealth();
+            Integer healthOfSecondToAttack = secondToAttack.getHealth();
+            final int rounds = 8;
+
+            for (int i = 0; i < rounds; i++) {
+
+                healthOfSecondToAttack -= (firstToAttack.getAttack() - secondToAttack.getDefense());
+                healthOfFirstToAttack -= (secondToAttack.getAttack() - firstToAttack.getDefense());
+
+                if (healthOfFirstToAttack <= 0 || healthOfSecondToAttack <= 0) {
+                    break;
+                }
+            }
+
+            return (healthOfFirstToAttack >= healthOfSecondToAttack) ? firstToAttack : secondToAttack;
+        }
+        return null;
     }
 }

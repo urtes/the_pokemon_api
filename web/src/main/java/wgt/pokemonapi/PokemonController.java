@@ -1,11 +1,12 @@
 package wgt.pokemonapi;
 
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import wgt.pokemonapi.filters.*;
+import wgt.pokemonapi.requests.BattleRequest;
+import wgt.pokemonapi.requests.SelectionRequest;
 
 import java.util.*;
 
@@ -13,13 +14,13 @@ import java.util.*;
 public class PokemonController {
 
     @Autowired
-    private Map<String, Pokemon> pokemonMap;
-
-    @Autowired
-    BattleSystem battleSystem;
-
-    @Autowired
     Sender sender;
+
+    @Autowired
+    SelectionRequest selectionRequest;
+
+    @Autowired
+    BattleRequest battleRequest;
 
     @GetMapping("/pokemons")
     public Map<String, Pokemon> filterPokemons (@RequestParam(value = "specificType", defaultValue = "")String specificType,
@@ -27,80 +28,22 @@ public class PokemonController {
                                                 @RequestParam(value = "legendary", defaultValue = "false") boolean legendary,
                                                 @RequestParam(value = "name", defaultValue = "") String name) {
 
-        Map<String, Pokemon> filteredPokemons = pokemonMap;
-        List<PokemonFilter> filters = new ArrayList<>();
+        selectionRequest.setSpecificType(specificType);
+        selectionRequest.setMultipleTypes(multipleTypes);
+        selectionRequest.setLegendary(legendary);
+        selectionRequest.setName(name);
 
-        if (specificType != null && specificType.length() != 0) {
-            PokemonFilter filterBySpecificType = new FilterBySpecificType(filteredPokemons, specificType);
-            filters.add(filterBySpecificType);
-        }
-
-        if (multipleTypes) {
-            PokemonFilter filterByMultipleTypes = new FilterByMultipleTypes(filteredPokemons);
-            filters.add(filterByMultipleTypes);
-        }
-
-        if (legendary) {
-            PokemonFilter filterLegendary = new FilterLegendary(filteredPokemons);
-            filters.add(filterLegendary);
-        }
-
-        if (name != null && name.length() != 0) {
-            PokemonFilter filterByName = new FilterByName(filteredPokemons, name);
-            filters.add(filterByName);
-        }
-
-        if (filters.isEmpty()) {
-            return filteredPokemons;
-        }
-
-        for (PokemonFilter filter : filters) {
-            filteredPokemons = filter.apply();
-        }
-
-        return filteredPokemons;
-
+        return sender.sendSelectionRequest(selectionRequest);
     }
 
     @GetMapping("/pokemons-battle")
     public Pokemon comparePokemons(@RequestParam(value = "pokemonA", defaultValue = "") String nameOfPokemonA,
                                     @RequestParam(value = "pokemonB", defaultValue = "") String nameOfPokemonB) {
 
-        Pokemon winner = new Pokemon();
-        Pokemon firstToAttack;
-        Pokemon secondToAttack;
+        battleRequest.setNameOfPokemonA(nameOfPokemonA);
+        battleRequest.setNameOfPokemonB(nameOfPokemonB);
 
-        Pokemon pokemonA = pokemonMap.get(nameOfPokemonA);
-        Pokemon pokemonB = pokemonMap.get(nameOfPokemonB);
+        System.out.println("received :" + sender.sendBattleRequest(battleRequest).toString());
 
-        if (pokemonA != null && pokemonB != null) {
-            if (pokemonA.getAttackSpeed() >= pokemonB.getAttackSpeed()) {
-                firstToAttack = pokemonA;
-                secondToAttack = pokemonB;
-            } else {
-                firstToAttack = pokemonB;
-                secondToAttack = pokemonA;
-            }
-
-            winner = battleSystem.fight(firstToAttack, secondToAttack);
-        }
-
-        return winner;
-    }
-
-    @GetMapping("/selection")
-    public void sendSelectionMessage(@RequestParam(value = "select", defaultValue = "") String request) {
-
-        SelectionRequest selectionRequest = new SelectionRequest();
-        selectionRequest.setRequestSelection(request);
-        sender.sendSelectionRequest(selectionRequest);
-    }
-
-    @GetMapping("/battle")
-    public void sendBattleMessage(@RequestParam(value = "fight", defaultValue = "") String request) {
-
-        BattleRequest battleRequest = new BattleRequest();
-        battleRequest.setRequestBattle(request);
-        sender.sendBattleRequest(battleRequest);
-    }
+        return sender.sendBattleRequest(battleRequest); }
 }

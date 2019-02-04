@@ -1,14 +1,12 @@
 package wgt.pokemonapi;
 
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import wgt.pokemonapi.queues.QueueFromWeb;
+import wgt.pokemonapi.requests.BattleRequest;
+import wgt.pokemonapi.requests.SelectionRequest;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Sender {
@@ -16,29 +14,24 @@ public class Sender {
     @Autowired
     private RabbitTemplate template;
 
-//    @Autowired
-//    private QueueFromWeb queueFromWeb;
-
     @Autowired
     private TopicExchange topic;
 
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
-    public void sendSelectionRequest(SelectionRequest selectionRequest) {
-//        String message = "Hello World, from web!";
-//        this.template.convertAndSend(queueFromWeb.getName(), request);
-//        System.out.println(" [x] Sent '" + request.toString() + "'");
-        Map<String, Pokemon> pokemons = new HashMap<>();
+    public Map<String, Pokemon> sendSelectionRequest(SelectionRequest selectionRequest) {
+
+        Map<String, Pokemon> pokemons;
         pokemons = (Map<String, Pokemon>) template.convertSendAndReceive(topic.getName(), "selection", selectionRequest);
-        System.out.println("Send: " + selectionRequest.toString());
-        System.out.println("Received: " + pokemons.get("Bulbasaur").toString());
+
+        return pokemons;
     }
 
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
-    public void sendBattleRequest(BattleRequest battleRequest) {
-//        String message = "Hello World, from web!";
-//        this.template.convertAndSend(queueFromWeb.getName(), request);
-//        System.out.println(" [x] Sent '" + request.toString() + "'");
-        template.convertSendAndReceive(topic.getName(), "battle", battleRequest);
-        System.out.println("Send: " + battleRequest.toString());
+    public Pokemon sendBattleRequest(BattleRequest battleRequest) {
+
+        Pokemon pokemon;
+        pokemon = (Pokemon) template.convertSendAndReceive(topic.getName(), "battle", battleRequest);
+
+        return pokemon;
     }
 }

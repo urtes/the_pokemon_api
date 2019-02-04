@@ -7,14 +7,10 @@ import lombok.var;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import wgt.pokemonapi.queues.QueueFromEngine;
-import wgt.pokemonapi.queues.QueueFromWeb;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -55,25 +51,16 @@ public class PokemonApplicationConfig {
         return pokemonMap;
     }
 
-//    @Bean
-//    public QueueFromEngine helloFromEngine() {
-//        return new QueueFromEngine("from engine");
-//    }
+    @Bean
+    public FilteringSystem filteringSystem() { return new FilteringSystem(); }
 
-//    @Bean
-//    public QueueFromWeb helloFromWeb() {
-//        return new QueueFromWeb("test.web&engine.from-web");
-//    }
+    @Bean
+    public BattleSystem battleSystem() { return new BattleSystem(); }
 
     @Bean
     public Receiver receiver() {
         return new Receiver();
     }
-
-//    @Bean
-//    public Sender sender() {
-//        return new Sender();
-//    }
 
     @Bean
     public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
@@ -87,43 +74,29 @@ public class PokemonApplicationConfig {
         return new Jackson2JsonMessageConverter();
     }
 
-//    @Bean
-//    public DirectExchange exchange() {
-//        return new DirectExchange("test.web&engine");
-//    }
-
     @Bean
     public TopicExchange topic() { return new TopicExchange("test.web&engine"); }
 
     @Bean
-    public Queue autoDeleteQueueSelection() {
+    public Queue queueSelection() {
         return new AnonymousQueue();
     }
 
     @Bean
-    public Queue autoDeleteQueueBattle() {
+    public Queue queueBattle() {
         return new AnonymousQueue();
     }
 
-
-//    @Bean
-//    public Binding binding(DirectExchange exchange,
-//                           QueueFromWeb queueFromWeb) {
-//        return BindingBuilder.bind(queueFromWeb)
-//                .to(exchange)
-//                .with("web&engine");
-//    }
-
     @Bean
-    public Binding bindingSelection (TopicExchange topic, Queue autoDeleteQueueSelection) {
-        return BindingBuilder.bind(autoDeleteQueueSelection)
+    public Binding bindingSelection (TopicExchange topic, Queue queueSelection) {
+        return BindingBuilder.bind(queueSelection)
                 .to(topic)
                 .with("selection");
     }
 
     @Bean
-    public Binding bindingBattle (TopicExchange topic, Queue autoDeleteQueueBattle) {
-        return BindingBuilder.bind(autoDeleteQueueBattle)
+    public Binding bindingBattle (TopicExchange topic, Queue queueBattle) {
+        return BindingBuilder.bind(queueBattle)
                 .to(topic)
                 .with("battle");
     }
