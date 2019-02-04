@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import wgt.pokemonapi.queues.QueueFromWeb;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Sender {
 
     @Autowired
@@ -24,8 +27,10 @@ public class Sender {
 //        String message = "Hello World, from web!";
 //        this.template.convertAndSend(queueFromWeb.getName(), request);
 //        System.out.println(" [x] Sent '" + request.toString() + "'");
-        template.convertAndSend(topic.getName(), "selection", selectionRequest);
+        Map<String, Pokemon> pokemons = new HashMap<>();
+        pokemons = (Map<String, Pokemon>) template.convertSendAndReceive(topic.getName(), "selection", selectionRequest);
         System.out.println("Send: " + selectionRequest.toString());
+        System.out.println("Received: " + pokemons.get("Bulbasaur").toString());
     }
 
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
@@ -33,7 +38,7 @@ public class Sender {
 //        String message = "Hello World, from web!";
 //        this.template.convertAndSend(queueFromWeb.getName(), request);
 //        System.out.println(" [x] Sent '" + request.toString() + "'");
-        template.convertAndSend(topic.getName(), "battle", battleRequest);
+        template.convertSendAndReceive(topic.getName(), "battle", battleRequest);
         System.out.println("Send: " + battleRequest.toString());
     }
 }
