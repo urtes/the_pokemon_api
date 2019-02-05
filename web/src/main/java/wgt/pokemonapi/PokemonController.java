@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import wgt.pokemonapi.filters.*;
 import wgt.pokemonapi.requests.BattleRequest;
 import wgt.pokemonapi.requests.SelectionRequest;
 
@@ -42,8 +41,6 @@ public class PokemonController {
 
         battleRequest.setNameOfPokemonA(nameOfPokemonA);
         battleRequest.setNameOfPokemonB(nameOfPokemonB);
-
-        System.out.println("received :" + sender.sendBattleRequest(battleRequest).toString());
 
         return sender.sendBattleRequest(battleRequest); }
 }

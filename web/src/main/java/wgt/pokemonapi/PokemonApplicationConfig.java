@@ -37,5 +37,8 @@ public class PokemonApplicationConfig {
     }
 
     @Bean
-    public TopicExchange topic() { return new TopicExchange("test.web&engine"); }
+    public TopicExchange topicPokemons() { return new TopicExchange("test.pokemons"); }
+
+    @Bean
+    public TopicExchange topicBattle() { return new TopicExchange("test.battle"); }
 }

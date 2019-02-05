@@ -15,13 +15,16 @@ public class Sender {
     private RabbitTemplate template;
 
     @Autowired
-    private TopicExchange topic;
+    private TopicExchange topicPokemons;
+
+    @Autowired
+    private TopicExchange topicBattle;
 
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
     public Map<String, Pokemon> sendSelectionRequest(SelectionRequest selectionRequest) {
 
         Map<String, Pokemon> pokemons;
-        pokemons = (Map<String, Pokemon>) template.convertSendAndReceive(topic.getName(), "selection", selectionRequest);
+        pokemons = (Map<String, Pokemon>) template.convertSendAndReceive(topicPokemons.getName(), "selection", selectionRequest);
 
         return pokemons;
     }
@@ -30,7 +33,7 @@ public class Sender {
     public Pokemon sendBattleRequest(BattleRequest battleRequest) {
 
         Pokemon pokemon;
-        pokemon = (Pokemon) template.convertSendAndReceive(topic.getName(), "battle", battleRequest);
+        pokemon = (Pokemon) template.convertSendAndReceive(topicBattle.getName(), "battle", battleRequest);
 
         return pokemon;
     }

@@ -21,17 +21,15 @@ public class Receiver {
     }
 
     @RabbitListener(queues = "#{queueBattle.name}")
-    public void receiveBattle(BattleRequest battleRequest) throws InterruptedException {
-        receiveBattleRequest(battleRequest);
+    public Pokemon receiveBattle(BattleRequest battleRequest) throws InterruptedException {
+        return receiveBattleRequest(battleRequest);
     }
 
     public Map<String, Pokemon> receiveSelectionRequest(SelectionRequest selectionRequest) throws  InterruptedException {
-
         return filteringSystem.filter(selectionRequest);
     }
 
     public Pokemon receiveBattleRequest(BattleRequest battleRequest) throws  InterruptedException {
-
         return battleSystem.fight(battleRequest);
     }
 }

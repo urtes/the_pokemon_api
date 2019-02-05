@@ -75,7 +75,10 @@ public class PokemonApplicationConfig {
     }
 
     @Bean
-    public TopicExchange topic() { return new TopicExchange("test.web&engine"); }
+    public TopicExchange topicPokemons() { return new TopicExchange("test.pokemons"); }
+
+    @Bean
+    public TopicExchange topicBattle() { return new TopicExchange("test.battle"); }
 
     @Bean
     public Queue queueSelection() {
@@ -88,16 +91,16 @@ public class PokemonApplicationConfig {
     }
 
     @Bean
-    public Binding bindingSelection (TopicExchange topic, Queue queueSelection) {
+    public Binding bindingSelection (TopicExchange topicPokemons, Queue queueSelection) {
         return BindingBuilder.bind(queueSelection)
-                .to(topic)
+                .to(topicPokemons)
                 .with("selection");
     }
 
     @Bean
-    public Binding bindingBattle (TopicExchange topic, Queue queueBattle) {
+    public Binding bindingBattle (TopicExchange topicBattle, Queue queueBattle) {
         return BindingBuilder.bind(queueBattle)
-                .to(topic)
+                .to(topicBattle)
                 .with("battle");
     }
 }

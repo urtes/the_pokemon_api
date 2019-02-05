@@ -12,6 +12,7 @@ public class BattleSystem {
 
     public Pokemon fight(BattleRequest battleRequest) {
 
+        Pokemon winner = new Pokemon();
         Pokemon firstToAttack;
         Pokemon secondToAttack;
 
@@ -41,8 +42,8 @@ public class BattleSystem {
                 }
             }
 
-            return (healthOfFirstToAttack >= healthOfSecondToAttack) ? firstToAttack : secondToAttack;
+            winner = (healthOfFirstToAttack >= healthOfSecondToAttack) ? firstToAttack : secondToAttack;
         }
-        return null;
+        return winner;
     }
 }
