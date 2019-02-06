@@ -9,12 +9,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class FilterBySpecificType extends PokemonFilter {
 
-    private Map<String, Pokemon> pokemonsToFilter;
     private String specificType;
 
-
     @Override
-    public Map<String, Pokemon> apply() {
+    public Map<String, Pokemon> apply(Map<String, Pokemon> pokemonsToFilter) {
 
         Map<String, Pokemon> filteredPokemons = pokemonsToFilter
                 .entrySet()

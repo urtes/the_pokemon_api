@@ -6,5 +6,5 @@ import java.util.Map;
 
 public abstract class PokemonFilter {
 
-    public abstract Map<String, Pokemon> apply();
+    public abstract Map<String, Pokemon> apply(Map<String, Pokemon> pokemonsToFilter);
 }

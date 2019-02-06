@@ -18,23 +18,28 @@ public class FilteringSystem {
         Map<String, Pokemon> filteredPokemons = pokemonMap;
         List<PokemonFilter> filters = new ArrayList<>();
 
-        if (selectionRequest.getSpecificType() != null && selectionRequest.getSpecificType().length() != 0) {
-            PokemonFilter filterBySpecificType = new FilterBySpecificType(filteredPokemons, selectionRequest.getSpecificType());
+        String specificType = selectionRequest.getSpecificType();
+        Boolean multipleTypes = selectionRequest.isMultipleTypes();
+        Boolean legendary = selectionRequest.isLegendary();
+        String name = selectionRequest.getName();
+
+        if (specificType != null && specificType.length() != 0) {
+            PokemonFilter filterBySpecificType = new FilterBySpecificType(specificType);
             filters.add(filterBySpecificType);
         }
 
-        if (selectionRequest.isMultipleTypes()) {
-            PokemonFilter filterByMultipleTypes = new FilterByMultipleTypes(filteredPokemons);
+        if (multipleTypes) {
+            PokemonFilter filterByMultipleTypes = new FilterByMultipleTypes();
             filters.add(filterByMultipleTypes);
         }
 
-        if (selectionRequest.isLegendary()) {
-            PokemonFilter filterLegendary = new FilterLegendary(filteredPokemons);
+        if (legendary) {
+            PokemonFilter filterLegendary = new FilterLegendary();
             filters.add(filterLegendary);
         }
 
-        if (selectionRequest.getName() != null && selectionRequest.getName().length() != 0) {
-            PokemonFilter filterByName = new FilterByName(filteredPokemons, selectionRequest.getName());
+        if (name != null && name.length() != 0) {
+            PokemonFilter filterByName = new FilterByName(name);
             filters.add(filterByName);
         }
 
@@ -43,7 +48,7 @@ public class FilteringSystem {
         }
 
         for (PokemonFilter filter : filters) {
-            filteredPokemons = filter.apply();
+            filteredPokemons = filter.apply(filteredPokemons);
         }
 
         return filteredPokemons;
