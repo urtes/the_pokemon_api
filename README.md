@@ -1,6 +1,6 @@
 # the_pokemon_api
 
-![picture](pikachu.png)
+![picture](pikachu.jpg)
 
 The_pokemon_api is an application that receives and answers two types of requests about pokemons: 
 1. requests about different pokemons available, with the resulting answer being all the pokemons that 
