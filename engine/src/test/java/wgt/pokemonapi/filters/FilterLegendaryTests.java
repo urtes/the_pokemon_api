@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class FilterLegendaryTests {
 
     Map<String, Pokemon> testPokemonsToFilter = new HashMap<>();
-    FilterLegendary filterLegendary = new FilterLegendary(testPokemonsToFilter);
+    FilterLegendary filterLegendary = new FilterLegendary();
 
     @Test
     public void applyTestWithAllLegendary(){
@@ -26,7 +26,7 @@ public class FilterLegendaryTests {
         testPokemonsToFilter.put("pokemon1", pokemon1);
         testPokemonsToFilter.put("pokemon2", pokemon2);
 
-        assertEquals(2, filterLegendary.apply().size());
+        assertEquals(2, filterLegendary.apply(testPokemonsToFilter).size());
     }
 
     @Test
@@ -39,7 +39,7 @@ public class FilterLegendaryTests {
         testPokemonsToFilter.put("pokemon1", pokemon1);
         testPokemonsToFilter.put("pokemon2", pokemon2);
 
-        assertEquals(0, filterLegendary.apply().size());
+        assertEquals(0, filterLegendary.apply(testPokemonsToFilter).size());
     }
 
     @Test
@@ -52,12 +52,12 @@ public class FilterLegendaryTests {
         testPokemonsToFilter.put("pokemon1", pokemon1);
         testPokemonsToFilter.put("pokemon2", pokemon2);
 
-        assertEquals(1, filterLegendary.apply().size());
-        assertEquals(true, filterLegendary.apply().get("pokemon1").getLegendary());
+        assertEquals(1, filterLegendary.apply(testPokemonsToFilter).size());
+        assertEquals(true, filterLegendary.apply(testPokemonsToFilter).get("pokemon1").getLegendary());
     }
 
     @Test
     public void applyTestWithNoValues() {
-        assertEquals(0, filterLegendary.apply().size());
+        assertEquals(0, filterLegendary.apply(testPokemonsToFilter).size());
     }
 }

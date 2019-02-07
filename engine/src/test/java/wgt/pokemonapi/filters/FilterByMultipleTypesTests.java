@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 public class FilterByMultipleTypesTests {
 
     Map<String, Pokemon> testPokemonsToFilter = new HashMap<>();
-    FilterByMultipleTypes filterByMultipleTypes = new FilterByMultipleTypes(testPokemonsToFilter);
+    FilterByMultipleTypes filterByMultipleTypes = new FilterByMultipleTypes();
 
     @Test
     public void applyTestWithAllMultipleTypes() {
@@ -36,7 +36,7 @@ public class FilterByMultipleTypesTests {
         testPokemonsToFilter.put("pokemon2", pokemon2);
         testPokemonsToFilter.put("pokemon3", pokemon3);
 
-        assertEquals(3, filterByMultipleTypes.apply().size());
+        assertEquals(3, filterByMultipleTypes.apply(testPokemonsToFilter).size());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class FilterByMultipleTypesTests {
         testPokemonsToFilter.put("pokemon2", pokemon2);
         testPokemonsToFilter.put("pokemon3", pokemon3);
 
-        assertEquals(0, filterByMultipleTypes.apply().size());
+        assertEquals(0, filterByMultipleTypes.apply(testPokemonsToFilter).size());
     }
 
     @Test
@@ -76,12 +76,12 @@ public class FilterByMultipleTypesTests {
         testPokemonsToFilter.put("pokemon1", pokemon1);
         testPokemonsToFilter.put("pokemon2", pokemon2);
 
-        assertEquals(1, filterByMultipleTypes.apply().size());
-        assertTrue("Grass".equals(filterByMultipleTypes.apply().get("pokemon1").getType1()));
+        assertEquals(1, filterByMultipleTypes.apply(testPokemonsToFilter).size());
+        assertTrue("Grass".equals(filterByMultipleTypes.apply(testPokemonsToFilter).get("pokemon1").getType1()));
     }
 
     @Test
     public void applyTestWithNoValues() {
-        assertEquals(0, filterByMultipleTypes.apply().size());
+        assertEquals(0, filterByMultipleTypes.apply(testPokemonsToFilter).size());
     }
 }

@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 public class FilterBySpecificTypeTests {
 
     Map<String, Pokemon> testPokemonsToFilter = new HashMap<>();
-    FilterBySpecificType filterBySpecificType = new FilterBySpecificType(testPokemonsToFilter, "Grass");
+    FilterBySpecificType filterBySpecificType = new FilterBySpecificType("Grass");
 
     @Test
     public void applyTestWithTwoValues() {
@@ -32,12 +32,12 @@ public class FilterBySpecificTypeTests {
         testPokemonsToFilter.put("pokemon1", pokemon1);
         testPokemonsToFilter.put("pokemon2", pokemon2);
 
-        assertEquals(1, filterBySpecificType.apply().size());
-        assertTrue("Grass".equals(filterBySpecificType.apply().get("pokemon1").getType1()));
+        assertEquals(1, filterBySpecificType.apply(testPokemonsToFilter).size());
+        assertTrue("Grass".equals(filterBySpecificType.apply(testPokemonsToFilter).get("pokemon1").getType1()));
     }
 
     @Test
     public void applyTestWithNoValues() {
-        assertEquals(0, filterBySpecificType.apply().size());
+        assertEquals(0, filterBySpecificType.apply(testPokemonsToFilter).size());
     }
 }

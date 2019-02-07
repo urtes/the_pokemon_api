@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 public class FilterByNameTests {
 
     Map<String, Pokemon> testPokemonsToFilter = new HashMap<>();
-    FilterByName filterByName = new FilterByName(testPokemonsToFilter, "Bulbasaur");
+    FilterByName filterByName = new FilterByName("Bulbasaur");
 
     @Test
     public void applyTestWithTwoValues() {
@@ -27,12 +27,12 @@ public class FilterByNameTests {
         testPokemonsToFilter.put(pokemon1.getName(), pokemon1);
         testPokemonsToFilter.put(pokemon2.getName(), pokemon2);
 
-        assertEquals(1, filterByName.apply().size());
-        assertTrue("Bulbasaur".equals(filterByName.apply().get("Bulbasaur").getName()));
+        assertEquals(1, filterByName.apply(testPokemonsToFilter).size());
+        assertTrue("Bulbasaur".equals(filterByName.apply(testPokemonsToFilter).get("Bulbasaur").getName()));
     }
 
     @Test
     public void applyTestWithNoValues() {
-        assertEquals(0, filterByName.apply().size());
+        assertEquals(0, filterByName.apply(testPokemonsToFilter).size());
     }
 }
