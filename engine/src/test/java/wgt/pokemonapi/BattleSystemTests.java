@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import wgt.pokemonapi.requests.BattleRequest;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
@@ -15,11 +16,11 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class BattleSystemTests {
 
-    @Mock
-    Map<String, Pokemon> pokemonMapMock;
+//    @Mock
+    Map<String, Pokemon> pokemonMap = new HashMap<>();
 
-    @InjectMocks
-    BattleSystem battleSystem;
+//    @InjectMocks
+    BattleSystem battleSystem = new BattleSystem();
 
     BattleRequest battleRequest = new BattleRequest();
     Pokemon firstToAttack = new Pokemon();
@@ -41,8 +42,11 @@ public class BattleSystemTests {
         secondToAttack.setAttack(20);
         secondToAttack.setDefense(20);
 
-        when(pokemonMapMock.get(battleRequest.getNameOfPokemonA())).thenReturn(firstToAttack);
-        when(pokemonMapMock.get(battleRequest.getNameOfPokemonB())).thenReturn(secondToAttack);
+//        when(pokemonMap.get(battleRequest.getNameOfPokemonA())).thenReturn(firstToAttack);
+//        when(pokemonMap.get(battleRequest.getNameOfPokemonB())).thenReturn(secondToAttack);
+
+        pokemonMap.put(firstToAttack.getName(), firstToAttack);
+        pokemonMap.put(secondToAttack.getName(), secondToAttack);
 
         assertTrue("firstToAttack".equals(battleSystem.fight(battleRequest).getName()));
     }
@@ -63,8 +67,8 @@ public class BattleSystemTests {
         secondToAttack.setAttack(100);
         secondToAttack.setDefense(100);
 
-        when(pokemonMapMock.get(battleRequest.getNameOfPokemonA())).thenReturn(firstToAttack);
-        when(pokemonMapMock.get(battleRequest.getNameOfPokemonB())).thenReturn(secondToAttack);
+        when(pokemonMap.get(battleRequest.getNameOfPokemonA())).thenReturn(firstToAttack);
+        when(pokemonMap.get(battleRequest.getNameOfPokemonB())).thenReturn(secondToAttack);
 
         assertTrue("firstToAttack".equals(battleSystem.fight(battleRequest).getName()));
     }
