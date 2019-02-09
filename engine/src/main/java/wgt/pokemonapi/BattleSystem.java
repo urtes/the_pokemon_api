@@ -1,7 +1,6 @@
 package wgt.pokemonapi;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import wgt.pokemonapi.requests.BattleRequest;
 

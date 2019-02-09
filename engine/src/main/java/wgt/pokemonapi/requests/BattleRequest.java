@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class BattleRequest {
-
     private String nameOfPokemonA;
     private String nameOfPokemonB;
 }

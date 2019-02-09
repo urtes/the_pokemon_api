@@ -4,8 +4,8 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import wgt.pokemonapi.requests.BattleRequest;
 import wgt.pokemonapi.requests.SelectionRequest;
+import wgt.pokemonapi.requests.BattleRequest;
 
 import java.util.Map;
 
@@ -31,7 +31,6 @@ public class Sender {
 
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
     public Pokemon sendBattleRequest(BattleRequest battleRequest) {
-
         Pokemon pokemon;
         pokemon = (Pokemon) template.convertSendAndReceive(topicBattle.getName(), "battle", battleRequest);
 

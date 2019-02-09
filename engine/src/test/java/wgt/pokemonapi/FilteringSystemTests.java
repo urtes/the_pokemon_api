@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import wgt.pokemonapi.filters.*;
+import wgt.pokemonapi.filters.FilterByName;
 import wgt.pokemonapi.requests.SelectionRequest;
 
 import java.util.Map;

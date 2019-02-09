@@ -1,5 +1,6 @@
 package wgt.pokemonapi.filters;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -53,7 +54,7 @@ public class FilterLegendaryTests {
         testPokemonsToFilter.put("pokemon2", pokemon2);
 
         assertEquals(1, filterLegendary.apply(testPokemonsToFilter).size());
-        assertEquals(true, filterLegendary.apply(testPokemonsToFilter).get("pokemon1").getLegendary());
+        Assert.assertEquals(true, filterLegendary.apply(testPokemonsToFilter).get("pokemon1").getLegendary());
     }
 
     @Test

@@ -7,8 +7,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import wgt.pokemonapi.requests.BattleRequest;
 import wgt.pokemonapi.requests.SelectionRequest;
+import wgt.pokemonapi.requests.BattleRequest;
 
 @Configuration
 public class PokemonApplicationConfig {

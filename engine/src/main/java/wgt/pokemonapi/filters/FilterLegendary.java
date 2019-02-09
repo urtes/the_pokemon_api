@@ -2,6 +2,7 @@ package wgt.pokemonapi.filters;
 
 import lombok.AllArgsConstructor;
 import wgt.pokemonapi.Pokemon;
+
 import java.util.Map;
 import java.util.stream.Collectors;
 
