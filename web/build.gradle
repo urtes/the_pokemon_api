@@ -1,29 +1,15 @@
-buildscript {
-    ext {
-        springBootVersion = '2.1.1.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+subprojects {
+    version = '1.0'
 }
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'wgt'
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 bootJar {
     baseName = 'web'
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
@@ -31,6 +17,6 @@ dependencies {
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     compileOnly 'org.projectlombok:lombok'
-    compile("org.springframework.boot:spring-boot-starter-amqp")
+    compile 'org.springframework.boot:spring-boot-starter-amqp'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
