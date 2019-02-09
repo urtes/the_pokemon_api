@@ -14,8 +14,21 @@ public class FilteringSystem {
     private Map<String, Pokemon> pokemonMap;
 
     public Map<String, Pokemon> filter(SelectionRequest selectionRequest) {
-
         Map<String, Pokemon> filteredPokemons = pokemonMap;
+        List<PokemonFilter> filters = collectFilters(selectionRequest);
+
+        if (filters.isEmpty()) {
+            return filteredPokemons;
+        }
+
+        for (PokemonFilter filter : filters) {
+            filteredPokemons = filter.apply(filteredPokemons);
+        }
+
+        return filteredPokemons;
+    }
+
+    protected List<PokemonFilter> collectFilters(SelectionRequest selectionRequest) {
         List<PokemonFilter> filters = new ArrayList<>();
 
         String specificType = selectionRequest.getSpecificType();
@@ -43,14 +56,6 @@ public class FilteringSystem {
             filters.add(filterByName);
         }
 
-        if (filters.isEmpty()) {
-            return filteredPokemons;
-        }
-
-        for (PokemonFilter filter : filters) {
-            filteredPokemons = filter.apply(filteredPokemons);
-        }
-
-        return filteredPokemons;
+        return filters;
     }
 }
