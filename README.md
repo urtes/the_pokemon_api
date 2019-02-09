@@ -18,6 +18,7 @@ Both services are developed in Java, using Spring Boot, Gradle and RabbitMQ.
 ## Installation
 
 To run the application RabbitMQ server has to be installed and running. When starting the application, Tomcat will start on ports 8070 and 8090 by default.
+To start the application go to parent directory the_pokemon_api and enter `./gradlew :engine:bootRun` and `./gradlew :web:bootRun`.
 
 ## Usage
 
